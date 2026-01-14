@@ -48,15 +48,19 @@ int main(int argc, char* argv[]) {
 
     int len = len1 + len2;
 
-    char buffer[LEN] = {'\0'};
-    if(read(fd1, buffer, len) != len) {
+    char *buffer = malloc(len+1);
+    if(read(fd1, buffer, (size_t)len) != len) {
         perror("Read");
+        free(buffer);
         close(fd1);
         close(fd2);
         return -1;
     }
+    buffer[len] = '\0';
+
     printf("Read text: %s\n", buffer);
 
+    free(buffer);
     close(fd1);
     close(fd2);
 
